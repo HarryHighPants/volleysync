@@ -2,6 +2,7 @@
   "type": "module",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "googleapis": "^112.0.0",
     "node-fetch": "^3.3.1"
   }
 }
