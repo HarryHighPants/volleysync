@@ -37,7 +37,6 @@ const fetchGameDetails = async (teamName, url) => {
   if (!court.trim()) throw new Error(`Could not find court number`);
 
   // Find the first time above the team cell
-  // Example output: "6:30pm"
   const timeText = teamCell
     .parent()
     .prevAll()
@@ -45,13 +44,22 @@ const fetchGameDetails = async (teamName, url) => {
     .eq(0)
     .text();
   if (!timeText.trim()) throw new Error(`Could not find game time`);
-  const hours = +timeText.split(":")[0] + 12;
-  const minutes = timeText.split(":")[1].replace(/\D/g, "");
 
   // Get the date from the table header
-  // Example output: "13th September"
   const dateText = $(`thead`).find(".column-4").text();
   if (!dateText.trim()) throw new Error(`Could not find game date`);
+
+  // Convert the time and date into a Date object
+  const dateTime = convertToDate(timeText, dateText);
+
+  return { court, dateTime };
+};
+
+// timeText example: "6:30pm"
+// dateText example: "13th September"
+const convertToDate = (timeText, dateText) => {
+  const hours = +timeText.split(":")[0] + 12;
+  const minutes = timeText.split(":")[1].replace(/\D/g, "");
   const month = dateText.split(" ")[1];
   const day = dateText.split(" ")[0].replace(/\D/g, "");
 
@@ -62,7 +70,7 @@ const fetchGameDetails = async (teamName, url) => {
   if (isNaN(dateTime.getTime()))
     throw new Error(`Could not parse date string: ${dateTimeString}`);
 
-  return { court, dateTime };
+  return dateTime;
 };
 
 export default fetchGameDetails;
