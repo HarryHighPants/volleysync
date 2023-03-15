@@ -1,5 +1,13 @@
 {
+  "name": "volleysync",
+  "version": "1.0.0",
+  "description": "Keeps a volleyball google calendar in sync with a website",
+  "author": "Harrison Armitage-Bath <https://github.com/HarryHighPants>",
+  "main": "main.js",
   "type": "module",
+  "scripts": {
+    "start": "node main.js"
+  },
   "dependencies": {
     "chalk": "^5.2.0",
     "cheerio": "^1.0.0-rc.12",
