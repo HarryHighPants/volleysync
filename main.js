@@ -19,7 +19,7 @@ cron.schedule("0 7-23 * * *", async () => {
 
 const fetchAndSync = async () => {
   const gameDetails = await fetchGameDetails(teamName, url);
-  if (syncCalendar(gameDetails)) {
+  if (await syncCalendar(gameDetails)) {
     console.log(
       chalk.green(
         `Successfully synced calendar with game ${gameDetails.dateTime.toString()} on ${
