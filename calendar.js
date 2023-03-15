@@ -7,21 +7,28 @@ const auth = new google.auth.GoogleAuth({
 const calendar = google.calendar({ version: "v3", auth });
 
 const syncCalendar = async (latestGameDetails) => {
-  const currentUpcomingEvent = await getCurrentUpcomingEvent();
+  if (latestGameDetails.dateTime < new Date()) {
+    console.log("Latest game is in the past");
+    return;
+  }
 
-  if (!upcomingEvent) {
+  const currentUpcomingEvent = await getCurrentUpcomingEvent();
+  if (!currentUpcomingEvent) {
     console.log("No upcoming events found so creating one");
     await createEvent(latestGameDetails);
     return;
   }
 
   if (
-    currentUpcomingEvent.start.dateTime === latestGameDetails.time &&
-    currentUpcomingEvent.description.contains(latestGameDetails.court)
-  )
+    new Date(currentUpcomingEvent.start.dateTime).toISOString() ===
+      latestGameDetails.dateTime.toISOString() &&
+    currentUpcomingEvent.summary.includes(latestGameDetails.court)
+  ) {
+    console.log("Event is already up to date");
     return;
+  }
 
-  console.log("Event is out of date so updating it");
+  console.log("Event is outdated so updating it");
   await updateEventDetails(currentUpcomingEvent, latestGameDetails);
 };
 
@@ -30,7 +37,6 @@ const getCurrentUpcomingEvent = async () => {
     calendarId: "primary",
     timeMin: new Date().toISOString(),
     maxResults: 1,
-    orderBy: "startTime",
   });
   return !!res?.data?.items?.length ? res.data.items[0] : undefined;
 };
@@ -43,7 +49,7 @@ const updateEventDetails = async (event, latestGameDetails) => {
       eventId: event.id,
       resource: updatedEventData,
     })
-    .then((event) => console.log(`Event updated: ${event}`));
+    .then((event) => console.log(`Event updated: ${event.statusText}`));
 };
 
 const createEvent = async (latestGameDetails) => {
@@ -53,20 +59,44 @@ const createEvent = async (latestGameDetails) => {
       calendarId: "primary",
       resource: newEventData,
     })
-    .then((event) => console.log(`Event created: ${event}`));
+    .then((event) => console.log(`Event created: ${event.statusText}`));
 };
 
-const generateEventData = (gameDetails) => ({
-  summary: "Beach Volleyball",
-  description: "Huge game on " + gameDetails.court,
-  start: {
-    dateTime: gameDetails.time,
-    timeZoneId: "Australia/Brisbane",
-  },
-  end: {
-    dateTime: gameDetails.time + 30,
-    timeZoneId: "Australia/Brisbane",
-  },
-});
+const generateEventData = (gameDetails) => {
+  const gameTypes = ["Huge", "Big", "Massive", "Giant", "Gigantic"];
+  const randomGameType =
+    gameTypes[Math.floor(Math.random() * gameTypes.length)];
+
+  const descriptions = [
+    "What are the odds Dos will get tilted this one?",
+    "Timmys had too many wheat bix this morning",
+    "I heard Timmys running in from Chermside this one",
+    "Timmys got the fists back out",
+    "I bet Mikaela and Kate won't stop chatting",
+    "How did we ever get into div 2?",
+    "Harry will surely make it this time",
+    "What are the odds the ref watches this one?",
+    "'Quick reset' - Dos",
+  ];
+  const randomDescription =
+    descriptions[Math.floor(Math.random() * descriptions.length)];
+
+  return {
+    summary: `${randomGameType} Volleyball Game -  ${gameDetails.court}`,
+    description: randomDescription,
+    start: {
+      dateTime: gameDetails.dateTime.toISOString(),
+      timeZoneId: "Australia/Brisbane",
+    },
+    end: {
+      dateTime: addMinutes(gameDetails.dateTime, 45).toISOString(),
+      timeZoneId: "Australia/Brisbane",
+    },
+  };
+};
+
+function addMinutes(date, minutes) {
+  return new Date(date.getTime() + minutes * 60000);
+}
 
 export default syncCalendar;

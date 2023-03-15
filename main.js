@@ -8,7 +8,7 @@ const url =
 const main = async () => {
   const gameDetails = await fetchGameDetails(teamName, url);
   console.log(`Huge game at ${gameDetails.dateTime} on ${gameDetails.court}`);
-  //   syncCalendar(gameDetails);
+  syncCalendar(gameDetails);
 };
 
 main();
