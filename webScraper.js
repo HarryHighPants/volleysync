@@ -26,6 +26,11 @@ const fetchGameDetails = async (teamName, url) => {
   const response = await fetch(url);
   const body = await response.text();
   if (!body) throw new Error("Could not get HTML from URL");
+
+  return extractGameDetails(body);
+};
+
+const extractGameDetails = (body) => {
   const $ = cheerio.load(body);
 
   // Find the cell with our team name
@@ -58,13 +63,13 @@ const fetchGameDetails = async (teamName, url) => {
 // timeText example: "6:30pm"
 // dateText example: "13th September"
 const convertToDate = (timeText, dateText) => {
-  const hours = +timeText.split(":")[0] + 12;
-  const minutes = timeText.split(":")[1].replace(/\D/g, "");
+  const year = new Date().getFullYear();
   const month = dateText.split(" ")[1];
   const day = dateText.split(" ")[0].replace(/\D/g, "");
+  const hours = +timeText.split(":")[0] + 12;
+  const minutes = timeText.split(":")[1].replace(/\D/g, "");
 
   // Convert the date and time into a Date object
-  const year = new Date().getFullYear();
   const dateTimeString = `${day} ${month} ${year} ${hours}:${minutes}`;
   const dateTime = new Date(dateTimeString);
   if (isNaN(dateTime.getTime()))
