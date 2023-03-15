@@ -27,10 +27,10 @@ const fetchGameDetails = async (teamName, url) => {
   const body = await response.text();
   if (!body) throw new Error("Could not get HTML from URL");
 
-  return extractGameDetails(body);
+  return extractGameDetails(teamName, body);
 };
 
-const extractGameDetails = (body) => {
+const extractGameDetails = (teamName, body) => {
   const $ = cheerio.load(body);
 
   // Find the cell with our team name

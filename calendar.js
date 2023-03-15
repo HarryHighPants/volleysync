@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import chalk from "chalk";
 
 const auth = new google.auth.GoogleAuth({
   keyFile: "./service_account_key.json",
@@ -8,15 +9,19 @@ const calendar = google.calendar({ version: "v3", auth });
 
 const syncCalendar = async (latestGameDetails) => {
   if (latestGameDetails.dateTime < new Date()) {
-    console.log("Latest game is in the past");
-    return;
+    console.log(chalk.bgGray("No new game times yet"));
+    return false;
   }
 
   const currentUpcomingEvent = await getCurrentUpcomingEvent();
   if (!currentUpcomingEvent) {
-    console.log("No upcoming events found so creating one");
+    console.log(
+      chalk.blue(
+        `At ${new Date().toString()} the new game time released so creating a calendar event for it`
+      )
+    );
     await createEvent(latestGameDetails);
-    return;
+    return true;
   }
 
   if (
@@ -24,12 +29,17 @@ const syncCalendar = async (latestGameDetails) => {
       latestGameDetails.dateTime.toISOString() &&
     currentUpcomingEvent.summary.includes(latestGameDetails.court)
   ) {
-    console.log("Event is already up to date");
-    return;
+    console.log(chalk.bgGray("Calendar is already up to date"));
+    return false;
   }
 
-  console.log("Event is outdated so updating it");
+  console.log(
+    chalk.blue(
+      `At ${new Date().toString()} the game times were updated so updating our calendar event`
+    )
+  );
   await updateEventDetails(currentUpcomingEvent, latestGameDetails);
+  return true;
 };
 
 const getCurrentUpcomingEvent = async () => {
@@ -49,7 +59,9 @@ const updateEventDetails = async (event, latestGameDetails) => {
       eventId: event.id,
       resource: updatedEventData,
     })
-    .then((event) => console.log(`Event updated: ${event.statusText}`));
+    .then((event) =>
+      console.log(chalk.blue(`Event updated: ${event.statusText}`))
+    );
 };
 
 const createEvent = async (latestGameDetails) => {
@@ -59,7 +71,9 @@ const createEvent = async (latestGameDetails) => {
       calendarId: "primary",
       resource: newEventData,
     })
-    .then((event) => console.log(`Event created: ${event.statusText}`));
+    .then((event) =>
+      console.log(chalk.blue(`Event created: ${event.statusText}`))
+    );
 };
 
 const generateEventData = (gameDetails) => {

@@ -1,8 +1,10 @@
 {
   "type": "module",
   "dependencies": {
+    "chalk": "^5.2.0",
     "cheerio": "^1.0.0-rc.12",
     "googleapis": "^112.0.0",
+    "node-cron": "^3.0.2",
     "node-fetch": "^3.3.1"
   }
 }
