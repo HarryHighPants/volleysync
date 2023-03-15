@@ -21,7 +21,11 @@ import * as cheerio from "cheerio";
 </tr> */
 }
 
-const fetchGameDetails = async (teamName, url) => {
+const teamName = "Send Tuesday";
+const url =
+  "https://www.volleyball.com";
+
+const fetchGameDetails = async () => {
   // Get the HTML from the URL
   const response = await fetch(url);
   const body = await response.text();

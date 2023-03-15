@@ -7,9 +7,9 @@ const auth = new google.auth.GoogleAuth({
 });
 const calendar = google.calendar({ version: "v3", auth });
 
-const syncCalendar = async (latestGameDetails) => {
+const trySyncCalendar = async (latestGameDetails) => {
   if (latestGameDetails.dateTime < new Date()) {
-    console.log(chalk.bgGray("No new game times yet"));
+    console.log(chalk.grey("No new game time yet"));
     return false;
   }
 
@@ -29,7 +29,7 @@ const syncCalendar = async (latestGameDetails) => {
       latestGameDetails.dateTime.toISOString() &&
     currentUpcomingEvent.summary.includes(latestGameDetails.court)
   ) {
-    console.log(chalk.bgGray("Calendar is already up to date"));
+    console.log(chalk.grey("Calendar is already up to date"));
     return false;
   }
 
@@ -113,4 +113,4 @@ function addMinutes(date, minutes) {
   return new Date(date.getTime() + minutes * 60000);
 }
 
-export default syncCalendar;
+export default trySyncCalendar;
