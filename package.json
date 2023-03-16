@@ -6,7 +6,7 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js --color"
   },
   "dependencies": {
     "chalk": "^5.2.0",
