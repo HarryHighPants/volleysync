@@ -7,4 +7,3 @@ To customise this for your own use:
  - Update `webScraper.js` to fetch your own information (url, html searching)
  - Setup your own Calendar with: https://github.com/googleapis/google-api-nodejs-client#service-account-credentials
  - Customise `calendar.js` to format the event with your custom scraped data
-
