@@ -1,6 +1,4 @@
-
-<img width="700" alt="image" src="https://user-images.githubusercontent.com/38173749/225908600-d06eb12a-8195-4c3a-8357-3ba7bfe9c5a9.png">
-
+<img width="762" alt="image" src="https://user-images.githubusercontent.com/38173749/226066384-a510ca53-47f3-471c-95cd-999f48627737.png">
 
 # Never miss a game:
 
