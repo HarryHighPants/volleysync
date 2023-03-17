@@ -1,8 +1,8 @@
 {
   "name": "volleysync",
   "version": "1.0.0",
-  "description": "Keeps a volleyball google calendar in sync with a website",
-  "author": "Harrison Armitage-Bath <https://github.com/HarryHighPants>",
+  "description": "Never miss a game: Sync your team's upcoming sporting events with your own Google Calendar",
+  "author": "HarryHighPants",
   "main": "main.js",
   "type": "module",
   "scripts": {
