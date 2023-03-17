@@ -22,8 +22,7 @@ import * as cheerio from "cheerio";
 }
 
 const teamName = "Send Tuesday";
-const url =
-  "https://www.volleyball.com";
+const url = "https://www.volleyball.com";
 
 const fetchGameDetails = async () => {
   // Get the HTML from the URL
