@@ -19,7 +19,7 @@ To use this script, you will need:
 
 ### Installing
 
-1.  Fork this repository and clone it to your local machine.
+1.  Use this template repository and clone it to your local machine.
 2.  Run `npm install`
 3.  Modify the `webScraper.js` file to fetch the information from your team's website. Update the URL and HTML parsing.
 4.  Follow the instructions [here](https://github.com/googleapis/google-api-nodejs-client#service-account-credentials)  to set up your Google Calendar API credentials and download the `credentials.json` file.
