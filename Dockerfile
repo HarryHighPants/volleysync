@@ -1,16 +1,17 @@
-FROM node:16
+# Set the base image to the official Node.js 16 image for ARM64v8 architecture
+FROM arm64v8/node:16-bullseye-slim
 
-# Create app directory
-WORKDIR /usr/src/app
+# Set the working directory to /app
+WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# Copy the package.json and package-lock.json files to the working directory
 COPY package*.json ./
+
+# Install the dependencies
 RUN npm install
 
-# Bundle app source
+# Copy the rest of the application files to the working directory
 COPY . .
 
-# EXPOSE 8080
-
-CMD [ "node", "main.js" ]
+# Set the command to run the application
+CMD ["npm", "start"]
