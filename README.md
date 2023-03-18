@@ -1,9 +1,5 @@
 <img width="762" alt="image" src="https://user-images.githubusercontent.com/38173749/226066384-a510ca53-47f3-471c-95cd-999f48627737.png">
 
-# Never miss a game:
-
-## Sync your team's upcoming sporting event with your own Google Calendar
-
 This example NodeJS application scrapes a website for your team's upcoming sporting event using Cheerio and syncs the event times with your Google Calendar. 
 
 The program runs on a regular basis using cron scheduling inside a Docker container, which ensures that your calendar stays up-to-date with the latest information about the upcoming events.
